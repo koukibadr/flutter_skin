@@ -1,6 +1,6 @@
 const Map<String, dynamic> mockSkin = {
   "colors": {
-    "primary": "#210a2b",
+    "primary": "#50156e",
     "secondary": "#FF6584",
     "background": "#FFFFFF",
     "surface": "#F9F9FB",

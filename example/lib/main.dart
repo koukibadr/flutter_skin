@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_skin/flutter_skin.dart';
 
 void main() {
+  FlutterSkin.init(
+    apiKey: 'your_api_key',
+    projectName: 'your_project_name',
+  );
   runApp(const MyApp());
 }
 

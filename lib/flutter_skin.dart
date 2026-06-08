@@ -1,26 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skin/extensions/color_extensions.dart';
 import 'package:flutter_skin/mock_skin.dart';
+import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/models/skin_model.dart' hide Colors;
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 
 class FlutterSkin {
-  final String apiKey;
-  final String projectName;
+  static FlutterSkin? _instance;
 
-  FskinRemoteConfig remoteConfig = FskinRemoteConfig.instance;
+  late String apiKey;
+  late String projectName;
 
-  FlutterSkin.init({required this.apiKey, required this.projectName}) {
-    remoteConfig.fetchConfig(); // Fetch the initial configuration values
+  // Private constructor
+  FlutterSkin._();
+
+  // Factory method to initialize and get the singleton instance
+  factory FlutterSkin.init({
+    required String apiKey,
+    required String projectName,
+  }) {
+    _instance ??= FlutterSkin._();
+    _instance!.apiKey = apiKey;
+    _instance!.projectName = projectName;
+
+    final remoteConfig = FskinRemoteConfig.init(
+      apiKey: apiKey,
+      projectName: projectName,
+    );
+    remoteConfig.fetchConfig();
+
+    return _instance!;
   }
 
-  static ThemeData toThemeData() {
-    SkinModel skinModel = SkinModel.fromMap(mockSkin);
-    Color primaryColor = skinModel.colors.primary != null
-        ? skinModel.colors.primary!.toHexColor()
-        : Colors.blue;
-    return ThemeData(
-      primaryColor: primaryColor,
-    );
+  static FlutterSkin get singleton {
+    if (_instance == null) {
+      throw Exception(
+        'FlutterSkin must be initialized with FlutterSkin.init()',
+      );
+    }
+    return _instance!;
+  }
+
+  static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
+    ProjectConfig? config = FskinRemoteConfig.projectConfig;
+    Color? primaryColor = config?.skinModel.colors.primary!.toHexColor();
+    ThemeData remoteTheme = ThemeData(primaryColor: primaryColor);
+    if (primaryColor == null) {
+      if (fallbackTheme != null) {
+        return fallbackTheme;
+      }
+    } else {
+      return remoteTheme;
+    }
+    return null;
   }
 }

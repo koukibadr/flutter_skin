@@ -1,22 +1,47 @@
+import 'package:flutter_skin/mock_skin.dart';
+import 'package:flutter_skin/models/project_config.dart';
+import 'package:flutter_skin/models/skin_model.dart';
+
 class FskinRemoteConfig {
 
+  static FskinRemoteConfig? _instance;
 
-  FskinRemoteConfig._privateConstructor() {
-    // Private constructor to prevent external instantiation
+  late String apiKey;
+  late String projectName;
+  ProjectConfig? _cachedConfig;
+
+  static ProjectConfig? get projectConfig {
+    if (_instance == null) {
+      throw Exception('FskinRemoteConfig must be initialized with FskinRemoteConfig.init()');
+    }
+    return _instance!._cachedConfig;
   }
-  static final FskinRemoteConfig _instance = FskinRemoteConfig._privateConstructor();
-  static FskinRemoteConfig get instance => _instance;
+
+  // Private constructor
+  FskinRemoteConfig._();
 
 
-  Future<void> init() async {
-    // Initialize the remote configuration, such as fetching initial values from a server
-    // You can add any necessary setup code here, such as configuring network requests or setting up listeners
+  static FskinRemoteConfig get singleton {
+    if (_instance == null) {
+      throw Exception('FskinRemoteConfig must be initialized with FskinRemoteConfig.init()');
+    }
+    return _instance!;
   }
 
-  Future<List<String>> fetchConfig() async {
+  // Factory method to initialize and get the singleton instance
+  factory FskinRemoteConfig.init(
+      {required String apiKey, required String projectName}) {
+    _instance ??= FskinRemoteConfig._();
+    _instance!.apiKey = apiKey;
+    _instance!.projectName = projectName;
+    _instance!.fetchConfig();
+    return _instance!;
+  }
+
+  Future<void> fetchConfig() async {
     // Fetch the value for the given key from the remote configuration
     // You can implement the logic to retrieve the value from your server or local cache
-    return ['default_value']; // Return a default value if the key is not found
+    _cachedConfig = ProjectConfig(skinModel: SkinModel.fromMap(mockSkin), projectName: projectName); // Return a default value if the key is not found;
   }
 
 }
