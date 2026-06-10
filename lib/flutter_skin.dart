@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skin/extensions/color_extensions.dart';
 import 'package:flutter_skin/models/project_config.dart';
+import 'package:flutter_skin/models/skin_model.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 
 class FlutterSkin {
@@ -40,9 +41,9 @@ class FlutterSkin {
 
   static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
     ProjectConfig? config = FskinRemoteConfig.projectConfig;
-    Color? primaryColor = config?.skinModel.colors.primary!.toHexColor();
-    ThemeData remoteTheme = ThemeData(primaryColor: primaryColor);
-    if (primaryColor == null) {
+    ColorScheme? colors = config?.skinModel.colors;
+    ThemeData remoteTheme = ThemeData(colorScheme: colors);
+    if (colors == null) {
       if (fallbackTheme != null) {
         return fallbackTheme;
       }

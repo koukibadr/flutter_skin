@@ -22,15 +22,14 @@ class SupabaseClient {
       throw Exception('Missing SUPABASE_URL or SUPABASE_ANON_KEY in .env file');
     }
 
-    await Supabase.initialize(
-      url: supabaseUrl,
-      anonKey: supabaseAnonKey,
-    );
+    await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
   }
 
-  SupabaseQueryBuilder get developers => Supabase.instance.client.from('developers');
+  SupabaseQueryBuilder get developers =>
+      Supabase.instance.client.from('developers');
 
-  SupabaseQueryBuilder get projects => Supabase.instance.client.from('projects');
+  SupabaseQueryBuilder get projects =>
+      Supabase.instance.client.from('projects');
 
   SupabaseQueryBuilder get skins => Supabase.instance.client.from('skins');
 }
