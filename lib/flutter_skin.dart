@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_skin/extensions/color_extensions.dart';
-import 'package:flutter_skin/mock_skin.dart';
 import 'package:flutter_skin/models/project_config.dart';
-import 'package:flutter_skin/models/skin_model.dart' hide Colors;
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 
 class FlutterSkin {
   static FlutterSkin? _instance;
 
-  late String apiKey;
-  late String projectName;
+  late String developerId;
+  late String projectId;
 
   // Private constructor
   FlutterSkin._();
 
   // Factory method to initialize and get the singleton instance
-  factory FlutterSkin.init({
-    required String apiKey,
-    required String projectName,
-  }) {
+  static Future<FlutterSkin> init({
+    required String developerId,
+    required String projectId,
+  }) async {
     _instance ??= FlutterSkin._();
-    _instance!.apiKey = apiKey;
-    _instance!.projectName = projectName;
+    _instance!.developerId = developerId;
+    _instance!.projectId = projectId;
 
-    final remoteConfig = FskinRemoteConfig.init(
-      apiKey: apiKey,
-      projectName: projectName,
+    await FskinRemoteConfig.init(
+      developerId: developerId,
+      projectId: projectId,
     );
-    remoteConfig.fetchConfig();
 
     return _instance!;
   }

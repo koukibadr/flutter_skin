@@ -1,13 +1,15 @@
 import 'package:flutter_skin/mock_skin.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/models/skin_model.dart';
+import 'package:flutter_skin/services/skin_service.dart';
+import 'package:flutter_skin/services/supabase_client.dart';
 
 class FskinRemoteConfig {
 
   static FskinRemoteConfig? _instance;
 
-  late String apiKey;
-  late String projectName;
+  late String developerId;
+  late String projectId;
   ProjectConfig? _cachedConfig;
 
   static ProjectConfig? get projectConfig {
@@ -29,19 +31,29 @@ class FskinRemoteConfig {
   }
 
   // Factory method to initialize and get the singleton instance
-  factory FskinRemoteConfig.init(
-      {required String apiKey, required String projectName}) {
+  static Future<FskinRemoteConfig> init({
+    required String developerId,
+    required String projectId,
+  }) async {
     _instance ??= FskinRemoteConfig._();
-    _instance!.apiKey = apiKey;
-    _instance!.projectName = projectName;
-    _instance!.fetchConfig();
+    _instance!.developerId = developerId;
+    _instance!.projectId = projectId;
+    await _instance!._initializeConfig();
     return _instance!;
   }
 
-  Future<void> fetchConfig() async {
-    // Fetch the value for the given key from the remote configuration
-    // You can implement the logic to retrieve the value from your server or local cache
-    _cachedConfig = ProjectConfig(skinModel: SkinModel.fromMap(mockSkin), projectName: projectName); // Return a default value if the key is not found;
+  Future<void> _initializeConfig() async {
+    // Initialize Supabase and fetch config in background
+    await SupabaseClient.initialize();
+    await fetchConfig();
   }
 
+  Future<void> fetchConfig() async {
+    // Call the skin service to fetch skin for developer and project
+    final skin = await SkinService().getSkin(developerId, projectId);
+    _cachedConfig = ProjectConfig(
+      skinModel: skin ?? SkinModel.fromMap(mockSkin),
+      projectName: projectId,
+    );
+  }
 }
