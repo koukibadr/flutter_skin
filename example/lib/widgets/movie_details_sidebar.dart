@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_skin/flutter_skin.dart';
 import '../models/movie.dart';
 
 class MovieDetailsSidebar extends StatelessWidget {
@@ -6,22 +7,26 @@ class MovieDetailsSidebar extends StatelessWidget {
   final VoidCallback onClose;
 
   const MovieDetailsSidebar({
+    super.key,
     required this.movie,
     required this.onClose,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme from the context
     final theme = Theme.of(context);
+    // Get the current active theme from FlutterSkin
+    final remoteTheme = FlutterSkin.theme;
 
     return Container(
-      color: theme.colorScheme.secondaryContainer,
+      color: remoteTheme?.colorScheme.secondaryContainer,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header
           Container(
-            color: theme.colorScheme.secondary,
+            color: remoteTheme?.colorScheme.secondary,
             padding: const EdgeInsets.all(16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,10 +40,7 @@ class MovieDetailsSidebar extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    color: theme.colorScheme.onSecondary,
-                  ),
+                  icon: Icon(Icons.close, color: theme.colorScheme.onSecondary),
                   onPressed: onClose,
                 ),
               ],
@@ -142,8 +144,9 @@ class MovieDetailsSidebar extends StatelessWidget {
                     children: movie.genre.split(', ').map((genre) {
                       return Chip(
                         label: Text(genre),
-                        backgroundColor:
-                            theme.colorScheme.primary.withOpacity(0.2),
+                        backgroundColor: theme.colorScheme.primary.withOpacity(
+                          0.2,
+                        ),
                         labelStyle: TextStyle(
                           color: theme.colorScheme.onSecondaryContainer,
                         ),
@@ -163,8 +166,9 @@ class MovieDetailsSidebar extends StatelessWidget {
                   Text(
                     movie.description,
                     style: TextStyle(
-                      color: theme.colorScheme.onSecondaryContainer
-                          .withOpacity(0.8),
+                      color: theme.colorScheme.onSecondaryContainer.withOpacity(
+                        0.8,
+                      ),
                       height: 1.5,
                     ),
                   ),

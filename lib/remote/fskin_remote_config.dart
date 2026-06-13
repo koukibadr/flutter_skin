@@ -1,6 +1,4 @@
-import 'package:flutter_skin/mock_skin.dart';
 import 'package:flutter_skin/models/project_config.dart';
-import 'package:flutter_skin/models/skin_model.dart';
 import 'package:flutter_skin/services/skin_service.dart';
 import 'package:flutter_skin/services/supabase_client.dart';
 
@@ -52,7 +50,7 @@ class FskinRemoteConfig {
     // Call the skin service to fetch skin for developer and project
     final skin = await SkinService().getSkin(developerId, projectId);
     _cachedConfig = ProjectConfig(
-      skinModel: skin ?? SkinModel.fromMap(mockSkin),
+      skin: skin,
       projectName: projectId,
     );
   }

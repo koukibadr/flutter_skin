@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_skin/extensions/color_extensions.dart';
 import 'package:flutter_skin/models/project_config.dart';
-import 'package:flutter_skin/models/skin_model.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 
 class FlutterSkin {
@@ -41,7 +39,7 @@ class FlutterSkin {
 
   static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
     ProjectConfig? config = FskinRemoteConfig.projectConfig;
-    ColorScheme? colors = config?.skinModel.colors;
+    ColorScheme? colors = config?.skin?.colors;
     ThemeData remoteTheme = ThemeData(colorScheme: colors);
     if (colors == null) {
       if (fallbackTheme != null) {
@@ -51,5 +49,12 @@ class FlutterSkin {
       return remoteTheme;
     }
     return null;
+  }
+
+
+  /// Query current active theme from remote config and return as ThemeData.
+  /// When there's no active theme, the result is null.
+  static ThemeData? get theme {
+    return toThemeData();
   }
 }
