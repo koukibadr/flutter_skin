@@ -33,7 +33,7 @@ class SkinModel {
     return SkinModel(
       id: map['id'] as String? ?? '',
       projectId: map['project_id'] as String? ?? '',
-      schema: map['schema'] as String? ?? '',
+      schema: map['tokens'] as String? ?? '',
       isActive: map['is_active'] as bool? ?? false,
       version: map['version'] as int? ?? 1,
       createdBy: map['created_by'] as String? ?? '',
@@ -46,7 +46,7 @@ class SkinModel {
       deletedAt: map['deleted_at'] != null
           ? DateTime.parse(map['deleted_at'] as String)
           : null,
-      colors: fromSchemaString(map['schema'] as String? ?? '')?.colors,
+      colors: fromSchemaString(map['tokens'] as String? ?? '')?.colors,
     );
   }
 

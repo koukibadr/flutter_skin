@@ -96,6 +96,17 @@ class _MovieCardState extends State<MovieCard> {
                                 : theme.colorScheme.onSurface,
                           ),
                         ),
+                        Text(
+                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: widget.isSelected
+                                ? theme.colorScheme.onPrimaryContainer
+                                : theme.colorScheme.onSurface,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -103,14 +114,14 @@ class _MovieCardState extends State<MovieCard> {
                               '⭐ ${widget.movie.rating}',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: theme.colorScheme.onSecondary,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                             Text(
                               widget.movie.year.toString(),
                               style: TextStyle(
                                 fontSize: 10,
-                                color: theme.colorScheme.onSecondary,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                           ],

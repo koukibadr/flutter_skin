@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final isWideScreen = MediaQuery.of(context).size.width > 900;
 
     return Scaffold(
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         backgroundColor: theme.colorScheme.primary,
         title: Text(
