@@ -6,8 +6,7 @@ class FskinRemoteConfig {
 
   static FskinRemoteConfig? _instance;
 
-  late String developerId;
-  late String projectId;
+  late String apiKey;
   ProjectConfig? _cachedConfig;
 
   static ProjectConfig? get projectConfig {
@@ -30,12 +29,10 @@ class FskinRemoteConfig {
 
   // Factory method to initialize and get the singleton instance
   static Future<FskinRemoteConfig> init({
-    required String developerId,
-    required String projectId,
+    required String apiKey,
   }) async {
     _instance ??= FskinRemoteConfig._();
-    _instance!.developerId = developerId;
-    _instance!.projectId = projectId;
+    _instance!.apiKey = apiKey;
     await _instance!._initializeConfig();
     return _instance!;
   }
@@ -48,10 +45,10 @@ class FskinRemoteConfig {
 
   Future<void> fetchConfig() async {
     // Call the skin service to fetch skin for developer and project
-    final skin = await SkinService().getSkin(developerId, projectId);
+    final skin = await SkinService().getSkin(apiKey);
     _cachedConfig = ProjectConfig(
       skin: skin,
-      projectName: projectId,
+      projectName: apiKey,
     );
   }
 }

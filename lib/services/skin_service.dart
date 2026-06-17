@@ -1,3 +1,4 @@
+import 'package:flutter_skin/models/skin_keys.dart';
 import 'package:flutter_skin/models/skin_model.dart';
 import 'package:flutter_skin/services/supabase_client.dart';
 
@@ -10,12 +11,28 @@ class SkinService {
     return _instance;
   }
 
-  Future<SkinModel?> getSkin(String developerId, String projectId) async {
+  Future<SkinKeys?> fetchProjectKeys(String key) async {
     try {
+      final response = await SupabaseClient().keys
+          .select()
+          .eq('key', key)
+          .eq('is_active', true)
+          .single();
+
+      return SkinKeys.fromMap(response as Map<String, dynamic>);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<SkinModel?> getSkin(String key) async {
+    try {
+      final skinKeys = await fetchProjectKeys(key);
+      if (skinKeys == null) return null;
+
       final response = await SupabaseClient().skins
           .select()
-          .eq('project_id', projectId)
-          .eq('created_by', developerId)
+          .eq('project_id', skinKeys.projectId)
           .eq('is_active', true)
           .single();
 
