@@ -12,6 +12,9 @@ class FlutterSkin {
 
   // Factory method to initialize and get the singleton instance
   static Future<FlutterSkin> init({required String apiKey}) async {
+    if (apiKey.trim().isEmpty) {
+      throw ArgumentError.value(apiKey, 'apiKey', 'apiKey must not be empty');
+    }
     _instance ??= FlutterSkin._();
     _instance!.apiKey = apiKey;
 

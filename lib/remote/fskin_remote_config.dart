@@ -48,7 +48,6 @@ class FskinRemoteConfig {
     final skin = await SkinService().getSkin(apiKey);
     _cachedConfig = ProjectConfig(
       skin: skin,
-      projectName: apiKey,
     );
   }
 }
