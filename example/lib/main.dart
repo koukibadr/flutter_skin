@@ -5,8 +5,8 @@ import 'pages/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSkin.init(
-    developerId: '327da410-9f8b-4160-bebb-6dde31f26cef',
-    projectId: 'a195c32f-eb4a-4b6a-a748-575374945255',
+    apiKey:
+        "fsk_560038766d4fe92e581fa479f5439306857377476f4074c709cf86a4a6b820fd",
   );
   runApp(const MyApp());
 }
@@ -23,4 +23,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

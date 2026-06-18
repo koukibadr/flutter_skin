@@ -5,25 +5,20 @@ import 'package:flutter_skin/remote/fskin_remote_config.dart';
 class FlutterSkin {
   static FlutterSkin? _instance;
 
-  late String developerId;
-  late String projectId;
+  late String apiKey;
 
   // Private constructor
   FlutterSkin._();
 
   // Factory method to initialize and get the singleton instance
-  static Future<FlutterSkin> init({
-    required String developerId,
-    required String projectId,
-  }) async {
+  static Future<FlutterSkin> init({required String apiKey}) async {
+    if (apiKey.trim().isEmpty) {
+      throw ArgumentError.value(apiKey, 'apiKey', 'apiKey must not be empty');
+    }
     _instance ??= FlutterSkin._();
-    _instance!.developerId = developerId;
-    _instance!.projectId = projectId;
+    _instance!.apiKey = apiKey;
 
-    await FskinRemoteConfig.init(
-      developerId: developerId,
-      projectId: projectId,
-    );
+    await FskinRemoteConfig.init(apiKey: apiKey);
 
     return _instance!;
   }
@@ -50,7 +45,6 @@ class FlutterSkin {
     }
     return null;
   }
-
 
   /// Query current active theme from remote config and return as ThemeData.
   /// When there's no active theme, the result is null.

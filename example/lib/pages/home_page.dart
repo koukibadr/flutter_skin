@@ -20,7 +20,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 1,
       title: 'Inception',
-      description: 'A skilled thief who steals corporate secrets through the use of dream-sharing technology.',
+      description:
+          'A skilled thief who steals corporate secrets through the use of dream-sharing technology.',
       genre: 'Sci-Fi, Thriller',
       rating: 8.8,
       year: 2010,
@@ -28,7 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 2,
       title: 'The Dark Knight',
-      description: 'When the menace known as the Joker wreaks havoc and chaos on Gotham City.',
+      description:
+          'When the menace known as the Joker wreaks havoc and chaos on Gotham City.',
       genre: 'Action, Crime',
       rating: 9.0,
       year: 2008,
@@ -36,7 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 3,
       title: 'Interstellar',
-      description: 'A team of explorers travel through a wormhole in space to ensure humanity survival.',
+      description:
+          'A team of explorers travel through a wormhole in space to ensure humanity survival.',
       genre: 'Adventure, Sci-Fi',
       rating: 8.6,
       year: 2014,
@@ -44,7 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 4,
       title: 'Pulp Fiction',
-      description: 'The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales.',
+      description:
+          'The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales.',
       genre: 'Crime, Drama',
       rating: 8.9,
       year: 1994,
@@ -52,7 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 5,
       title: 'Forrest Gump',
-      description: 'The presidencies of Kennedy and Johnson unfold from the perspective of an Alabama man.',
+      description:
+          'The presidencies of Kennedy and Johnson unfold from the perspective of an Alabama man.',
       genre: 'Drama, Romance',
       rating: 8.8,
       year: 1994,
@@ -60,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 6,
       title: 'The Matrix',
-      description: 'A computer hacker learns from mysterious rebels about the true nature of his reality.',
+      description:
+          'A computer hacker learns from mysterious rebels about the true nature of his reality.',
       genre: 'Action, Sci-Fi',
       rating: 8.7,
       year: 1999,
@@ -68,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 7,
       title: 'Gladiator',
-      description: 'A former Roman General sets out to exact vengeance against the corrupt emperor.',
+      description:
+          'A former Roman General sets out to exact vengeance against the corrupt emperor.',
       genre: 'Action, Adventure, Drama',
       rating: 8.5,
       year: 2000,
@@ -76,7 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
     Movie(
       id: 8,
       title: 'Avatar',
-      description: 'A paraplegic Marine dispatched to the moon Pandora on a unique mission.',
+      description:
+          'A paraplegic Marine dispatched to the moon Pandora on a unique mission.',
       genre: 'Action, Adventure, Fantasy',
       rating: 7.8,
       year: 2009,

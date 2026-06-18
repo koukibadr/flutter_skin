@@ -1,5 +1,7 @@
-import 'package:flutter_skin/models/skin_model.dart';
-import 'package:flutter_skin/services/supabase_client.dart';
+import 'dart:convert';
+
+import 'package:flutter_skin/models/project_config.dart';
+import 'package:http/http.dart' as http;
 
 class SkinService {
   static final SkinService _instance = SkinService._();
@@ -10,29 +12,18 @@ class SkinService {
     return _instance;
   }
 
-  Future<SkinModel?> getSkin(String developerId, String projectId) async {
+  Future<ProjectConfig?> fetchData(String apiKey) async {
     try {
-      final response = await SupabaseClient().skins
-          .select()
-          .eq('project_id', projectId)
-          .eq('created_by', developerId)
-          .eq('is_active', true)
-          .single();
-
-      return SkinModel.fromMap(response as Map<String, dynamic>);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future<SkinModel?> getSkinById(String skinId) async {
-    try {
-      final response = await SupabaseClient().skins
-          .select()
-          .eq('id', skinId)
-          .single();
-
-      return SkinModel.fromMap(response as Map<String, dynamic>);
+      var client = http.Client();
+      var response = await client.post(
+        Uri.https('fskin-backend.vercel.app', 'fskin/skin'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'apiKey': apiKey}),
+      );
+      var decodedResponse =
+          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+      var projectConfig = ProjectConfig.fromMap(decodedResponse);
+      return projectConfig;
     } catch (e) {
       return null;
     }

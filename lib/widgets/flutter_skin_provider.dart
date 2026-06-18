@@ -1,9 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 class FlutterSkinProvider extends StatelessWidget {
-  
-  
-
   const FlutterSkinProvider({super.key});
 
   @override
