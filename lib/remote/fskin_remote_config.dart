@@ -32,13 +32,8 @@ class FskinRemoteConfig {
   static Future<FskinRemoteConfig> init({required String apiKey}) async {
     _instance ??= FskinRemoteConfig._();
     _instance!.apiKey = apiKey;
-    await _instance!._initializeConfig();
+    await _instance!.fetchConfig();
     return _instance!;
-  }
-
-  Future<void> _initializeConfig() async {
-    // Initialize Supabase and fetch config in background
-    await fetchConfig();
   }
 
   Future<void> fetchConfig() async {

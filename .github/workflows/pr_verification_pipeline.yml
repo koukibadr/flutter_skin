@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  
+  analyze-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Running Flutter analysis on package code
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings --write=analysis_report.txt
+      
+      - name: Artifact analysis report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analysis-report
+          path: |
+            analysis_report.txt
+          retention-days: 15

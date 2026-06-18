@@ -24,6 +24,7 @@ class SkinModel {
 
   /// Factory constructor to create SkinModel from a map
   factory SkinModel.fromMap(Map<String, dynamic> map) {
+    final tokens = map['tokens'];
     return SkinModel(
       id: map['id'] as String? ?? '',
       projectId: map['projectId'] as String? ?? '',
@@ -38,21 +39,10 @@ class SkinModel {
       deletedAt: map['deletedAt'] != null
           ? DateTime.parse(map['deletedAt'] as String)
           : null,
-      colors: fromSchemaString(map['tokens'])?.colors,
+      colors: tokens is Map<String, dynamic>
+          ? fromSchemaString(tokens)?.colors
+          : null,
     );
-  }
-
-  /// Convert SkinModel to map
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'projectId': projectId,
-      'isActive': isActive,
-      'version': version,
-      'createdAt': createdAt.toIso8601String(),
-      'publishedAt': publishedAt?.toIso8601String(),
-      'deletedAt': deletedAt?.toIso8601String(),
-    };
   }
 
   /// Parse SkinModel from schema string (JSON format)
