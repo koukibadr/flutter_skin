@@ -9,14 +9,10 @@ ColorScheme colorSchemeFromJson(Map<String, dynamic> map) {
         (map['secondaryContainer'] as String?)?.toHexColor() ??
         Colors.green[100]!,
     surface: (map['surface'] as String?)?.toHexColor() ?? Colors.white,
-    background:
-        (map['background'] as String?)?.toHexColor() ?? Colors.grey[200]!,
     error: (map['error'] as String?)?.toHexColor() ?? Colors.red,
     onPrimary: (map['onPrimary'] as String?)?.toHexColor() ?? Colors.white,
     onSecondary: (map['onSecondary'] as String?)?.toHexColor() ?? Colors.white,
     onSurface: (map['onSurface'] as String?)?.toHexColor() ?? Colors.black,
-    onBackground:
-        (map['onBackground'] as String?)?.toHexColor() ?? Colors.black,
     onError: (map['onError'] as String?)?.toHexColor() ?? Colors.white,
     brightness: map['brightness'] == 'dark'
         ? Brightness.dark

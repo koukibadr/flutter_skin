@@ -5,7 +5,8 @@ import 'pages/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSkin.init(
-    apiKey: const String.fromEnvironment('SKIN_API_KEY'),
+    apiKey:
+        "fsk_560038766d4fe92e581fa479f5439306857377476f4074c709cf86a4a6b820fd",
   );
   runApp(const MyApp());
 }
@@ -22,4 +23,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

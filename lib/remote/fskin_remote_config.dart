@@ -1,9 +1,7 @@
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/services/skin_service.dart';
-import 'package:flutter_skin/services/supabase_client.dart';
 
 class FskinRemoteConfig {
-
   static FskinRemoteConfig? _instance;
 
   late String apiKey;
@@ -11,7 +9,9 @@ class FskinRemoteConfig {
 
   static ProjectConfig? get projectConfig {
     if (_instance == null) {
-      throw Exception('FskinRemoteConfig must be initialized with FskinRemoteConfig.init()');
+      throw Exception(
+        'FskinRemoteConfig must be initialized with FskinRemoteConfig.init()',
+      );
     }
     return _instance!._cachedConfig;
   }
@@ -19,18 +19,17 @@ class FskinRemoteConfig {
   // Private constructor
   FskinRemoteConfig._();
 
-
   static FskinRemoteConfig get singleton {
     if (_instance == null) {
-      throw Exception('FskinRemoteConfig must be initialized with FskinRemoteConfig.init()');
+      throw Exception(
+        'FskinRemoteConfig must be initialized with FskinRemoteConfig.init()',
+      );
     }
     return _instance!;
   }
 
   // Factory method to initialize and get the singleton instance
-  static Future<FskinRemoteConfig> init({
-    required String apiKey,
-  }) async {
+  static Future<FskinRemoteConfig> init({required String apiKey}) async {
     _instance ??= FskinRemoteConfig._();
     _instance!.apiKey = apiKey;
     await _instance!._initializeConfig();
@@ -39,15 +38,12 @@ class FskinRemoteConfig {
 
   Future<void> _initializeConfig() async {
     // Initialize Supabase and fetch config in background
-    await SupabaseClient.initialize();
     await fetchConfig();
   }
 
   Future<void> fetchConfig() async {
     // Call the skin service to fetch skin for developer and project
-    final skin = await SkinService().getSkin(apiKey);
-    _cachedConfig = ProjectConfig(
-      skin: skin,
-    );
+    //final skin = await SkinService().getSkin(apiKey);
+    _cachedConfig = await SkinService().fetchData(apiKey);
   }
 }
