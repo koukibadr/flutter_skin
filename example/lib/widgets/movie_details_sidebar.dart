@@ -62,8 +62,8 @@ class MovieDetailsSidebar extends StatelessWidget {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          theme.colorScheme.primary.withOpacity(0.6),
-                          theme.colorScheme.secondary.withOpacity(0.6),
+                          theme.colorScheme.primary.withValues(alpha: 0.6),
+                          theme.colorScheme.secondary.withValues(alpha: 0.6),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -144,8 +144,8 @@ class MovieDetailsSidebar extends StatelessWidget {
                     children: movie.genre.split(', ').map((genre) {
                       return Chip(
                         label: Text(genre),
-                        backgroundColor: theme.colorScheme.primary.withOpacity(
-                          0.2,
+                        backgroundColor: theme.colorScheme.primary.withValues(
+                          alpha: 0.2,
                         ),
                         labelStyle: TextStyle(
                           color: theme.colorScheme.onSecondaryContainer,
@@ -166,8 +166,8 @@ class MovieDetailsSidebar extends StatelessWidget {
                   Text(
                     movie.description,
                     style: TextStyle(
-                      color: theme.colorScheme.onSecondaryContainer.withOpacity(
-                        0.8,
+                      color: theme.colorScheme.onSecondaryContainer.withValues(
+                        alpha: 0.8,
                       ),
                       height: 1.5,
                     ),

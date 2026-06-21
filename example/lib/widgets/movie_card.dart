@@ -7,6 +7,7 @@ class MovieCard extends StatefulWidget {
   final VoidCallback onTap;
 
   const MovieCard({
+    super.key,
     required this.movie,
     required this.isSelected,
     required this.onTap,
@@ -55,8 +56,8 @@ class _MovieCardState extends State<MovieCard> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          theme.colorScheme.primary.withOpacity(0.7),
-                          theme.colorScheme.secondary.withOpacity(0.7),
+                          theme.colorScheme.primary.withValues(alpha: 0.7),
+                          theme.colorScheme.secondary.withValues(alpha: 0.7),
                         ],
                       ),
                       borderRadius: const BorderRadius.only(

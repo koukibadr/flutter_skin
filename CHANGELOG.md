@@ -1,3 +1,18 @@
-## 0.0.1
+## 0.0.1-alpha.1 - 2026-06-21
 
-* TODO: Describe initial release.
+> 🎉 First alpha release of `flutter_skin` — the remote skin engine for Flutter.
+
+### Added
+
+- Core skin engine — fetch and apply a remotely published color skin on app startup.
+- `FlutterSkin.init()` — single entry point to initialize the package with an FSkin API key.
+- `FlutterSkin.toThemeData()` — converts the active skin into a Flutter `ThemeData` for seamless Material integration, pass it directly to `MaterialApp.theme`.
+- Color token set — full Material-compatible color scheme.
+- Light and dark mode support — skins define a `brightness` value and map to the correct Flutter `Brightness`.
+- Offline fallback — last successfully fetched skin is cached locally and used when the network is unavailable.
+- Cross-platform support — works on Android, iOS, Web, macOS, Windows, and Linux.
+
+### Notes
+
+- This is an **alpha release**. APIs may change before the stable `1.0.0` release.
+- Currently only **color tokens** are supported. Typography, spacing, border radii, and elevation tokens are planned for upcoming releases.

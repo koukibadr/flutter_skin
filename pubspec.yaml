@@ -1,8 +1,12 @@
 name: flutter_skin
-description: "A new Flutter package project."
+description: A runtime skin engine for Flutter projects, allowing dynamic theme
+  changes without the need for app restarts.
 version: 0.0.1
-homepage:
-
+homepage: https://github.com/koukibadr/flutter_skin
+screenshots:
+  - description: A runtime skin engine for Flutter projects, allowing dynamic theme
+      changes without the need for app restarts.
+    path: fskin_black.png
 environment:
   sdk: ^3.11.5
   flutter: ">=1.17.0"

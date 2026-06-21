@@ -5,6 +5,7 @@ import 'package:flutter_skin/remote/fskin_remote_config.dart';
 class FlutterSkin {
   static FlutterSkin? _instance;
 
+  /// The API key for accessing the remote configuration. This is set during initialization.
   late String apiKey;
 
   // Private constructor
@@ -32,6 +33,8 @@ class FlutterSkin {
     return _instance!;
   }
 
+  /// Query current active theme from remote config and return as ThemeData.
+  /// When there's no active theme, the result is null or fallbackTheme if provided.
   static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
     ProjectConfig? config = FskinRemoteConfig.projectConfig;
     ColorScheme? colors = config?.skin?.colors;

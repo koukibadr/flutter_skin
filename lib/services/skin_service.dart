@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:http/http.dart' as http;
 
+/// Singleton service class responsible for fetching the skin configuration from the remote server.
+/// This class abstracts the network communication and provides a method to retrieve the ProjectConfig
 class SkinService {
   static final SkinService _instance = SkinService._();
 

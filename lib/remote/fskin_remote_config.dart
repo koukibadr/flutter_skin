@@ -1,6 +1,9 @@
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/services/skin_service.dart';
 
+/// Singleton class responsible for managing the remote configuration of the skin.
+/// It fetches the configuration from the remote server using the provided API key and caches it for
+/// subsequent access.
 class FskinRemoteConfig {
   static FskinRemoteConfig? _instance;
 
