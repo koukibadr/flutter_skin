@@ -98,8 +98,8 @@ class _MovieCardState extends State<MovieCard> {
                           ),
                         ),
                         Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore",
-                          maxLines: 2,
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod",
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 10,

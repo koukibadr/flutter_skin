@@ -1,7 +1,7 @@
 name: flutter_skin
 description: A runtime skin engine for Flutter projects, allowing dynamic theme
   changes without the need for app restarts.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/koukibadr/flutter_skin
 screenshots:
   - description: A runtime skin engine for Flutter projects, allowing dynamic theme

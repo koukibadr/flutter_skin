@@ -54,7 +54,7 @@ Sign up at [app.fskin.dev](https://app.fskin.dev), create a project, and copy yo
 
 ```yaml
 dependencies:
-  flutter_skin: ^0.0.1
+  flutter_skin: ^0.0.2
 ```
 
 ```bash

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/services/skin_service.dart';
 
@@ -6,9 +9,13 @@ import 'package:flutter_skin/services/skin_service.dart';
 /// subsequent access.
 class FskinRemoteConfig {
   static FskinRemoteConfig? _instance;
+  static final StreamController<ThemeData> _skinController =
+      StreamController<ThemeData>.broadcast();
 
   late String apiKey;
   ProjectConfig? _cachedConfig;
+
+  static Stream<ThemeData> get onSkinChanged => _skinController.stream;
 
   static ProjectConfig? get projectConfig {
     if (_instance == null) {
@@ -43,5 +50,8 @@ class FskinRemoteConfig {
     // Call the skin service to fetch skin for developer and project
     //final skin = await SkinService().getSkin(apiKey);
     _cachedConfig = await SkinService().fetchData(apiKey);
+    if (_cachedConfig != null) {
+      _skinController.add(ThemeData(colorScheme: _cachedConfig!.skin?.colors));
+    }
   }
 }
