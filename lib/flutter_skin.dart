@@ -1,22 +1,27 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show ThemeData, ColorScheme;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
+import 'package:flutter_skin/services/fskin_subscriber.dart';
 
-class FlutterSkin {
+class FlutterSkin with WidgetsBindingObserver {
   static FlutterSkin? _instance;
 
-  /// The API key for accessing the remote configuration. This is set during initialization.
   late String apiKey;
+  static final FskinSubscriber _sse = FskinSubscriber();
+  static Stream<ThemeData> get onSkinChanged => FskinRemoteConfig.onSkinChanged;
 
   // Private constructor
   FlutterSkin._();
 
-  // Factory method to initialize and get the singleton instance
   static Future<FlutterSkin> init({required String apiKey}) async {
     if (apiKey.trim().isEmpty) {
       throw ArgumentError.value(apiKey, 'apiKey', 'apiKey must not be empty');
     }
-    _instance ??= FlutterSkin._();
+    if (_instance == null) {
+      _instance = FlutterSkin._();
+      WidgetsBinding.instance.addObserver(_instance!);
+    }
     _instance!.apiKey = apiKey;
 
     await FskinRemoteConfig.init(apiKey: apiKey);
@@ -31,6 +36,30 @@ class FlutterSkin {
       );
     }
     return _instance!;
+  }
+
+  /// Start listening to the backend stream for skin and projects updates
+  static void _startStream() {
+    _sse.listen(
+      apiKey: _instance!.apiKey,
+      onSkinUpdated: FskinRemoteConfig.singleton.fetchConfig,
+    );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    // When the app is resumed, fetch the latest config and restart the stream.
+    if (state == AppLifecycleState.resumed) {
+      try {
+        await FskinRemoteConfig.singleton.fetchConfig();
+      } finally {
+        _startStream();
+      }
+
+      // When the app is paused, dispose the stream to save resources.
+    } else if (state == AppLifecycleState.paused) {
+      _sse.dispose();
+    }
   }
 
   /// Query current active theme from remote config and return as ThemeData.

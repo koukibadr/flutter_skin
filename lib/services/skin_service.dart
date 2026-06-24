@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +20,7 @@ class SkinService {
     try {
       var response = await client
           .post(
-            Uri.https('fskin-backend.vercel.app', 'fskin/skin'),
+            Uri.https(FskinConstants.baseUrl, 'fskin/skin'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({'apiKey': apiKey}),
           )

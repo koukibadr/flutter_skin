@@ -1,4 +1,19 @@
-## 0.0.1-alpha.1 - 2026-06-21
+## 0.0.2 - 2026-06-24
+
+- Live skin updates.
+
+### Added
+
+- Implement `FlutterSkin.onSkinChanged` — a broadcast stream that emits the new Skin Tokens whenever the active skin or the project skin changes.
+- `FlutterSkin.init()` now opens a persistent Server-Sent Events connection to the FSkin backend alongside the initial skin fetch.
+- The SSE connection is automatically paused when the app is backgrounded and resumed when it returns to the foreground.
+
+### Changed
+
+- `FlutterSkin.init()` is now the complete setup — it handles the initial fetch, SSE connection, and lifecycle observer in a single call. No additional configuration required.
+
+
+## 0.0.1 - 2026-06-21
 
 > 🎉 First alpha release of `flutter_skin` — the remote skin engine for Flutter.
 
