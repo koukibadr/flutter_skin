@@ -28,7 +28,10 @@ class SkinService {
             body: jsonEncode({'apiKey': apiKey}),
           )
           .timeout(const Duration(seconds: 5));
-
+        
+      _logger.logMessage(
+        'Received response with status code: ${response.statusCode}',
+      );
       if (response.statusCode != 200) {
         _logger.logError(
           'Error fetching skin configuration: ${response.statusCode}',
