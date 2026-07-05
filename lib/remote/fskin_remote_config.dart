@@ -50,8 +50,6 @@ class FskinRemoteConfig {
     // Call the skin service to fetch skin for developer and project
     //final skin = await SkinService().getSkin(apiKey);
     _cachedConfig = await SkinService().fetchData(apiKey);
-    if (_cachedConfig != null) {
-      _skinController.add(ThemeData(colorScheme: _cachedConfig!.skin?.colors));
-    }
+    _skinController.add(ThemeData(colorScheme: _cachedConfig?.skin?.colors));
   }
 }
