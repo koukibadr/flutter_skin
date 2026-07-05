@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter_skin/constants/fskin_constants.dart';
+import 'package:flutter_skin/services/fskin_logger.dart';
 import 'package:http/http.dart' as http;
 
 class FskinSubscriber {
@@ -9,6 +10,7 @@ class FskinSubscriber {
   late http.Client _client;
   int _retryCount = 0;
   bool _disposed = false;
+  final FskinLogger _logger = FskinLogger();
 
   void listen({required String apiKey, required VoidCallback onSkinUpdated}) {
     _disposed = false;
@@ -35,18 +37,28 @@ class FskinSubscriber {
                 (line) {
                   if (line.startsWith('event: skin_updated') ||
                       line.startsWith('event: project_updated')) {
+                    _logger.logMessage('Skin update event received.');
                     onSkinUpdated();
                   }
                 },
                 onDone: () {
+                  _logger.logMessage('Stream connection closed. Retrying...');
                   _retry(apiKey, baseUrl, onSkinUpdated);
                 },
-                onError: (_) {
+                onError: (e) {
+                  _logger.logError(
+                    'Stream connection error. Retrying...',
+                    errorObject: e,
+                  );
                   _retry(apiKey, baseUrl, onSkinUpdated);
                 },
               );
         })
-        .catchError((_) {
+        .catchError((e) {
+          _logger.logError(
+            'Stream connection error. Retrying...',
+            errorObject: e,
+          );
           _retry(apiKey, baseUrl, onSkinUpdated);
         });
   }
@@ -62,6 +74,9 @@ class FskinSubscriber {
   }
 
   void dispose() {
+    _logger.logMessage(
+      'Disposing FskinSubscriber and closing stream connection.',
+    );
     _disposed = true;
     _subscription?.cancel();
     _client.close();

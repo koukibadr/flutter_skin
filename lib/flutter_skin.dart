@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' show ThemeData, ColorScheme;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
+import 'package:flutter_skin/services/fskin_logger.dart';
 import 'package:flutter_skin/services/fskin_subscriber.dart';
 
 class FlutterSkin with WidgetsBindingObserver {
@@ -10,12 +11,14 @@ class FlutterSkin with WidgetsBindingObserver {
   late String apiKey;
   static final FskinSubscriber _sse = FskinSubscriber();
   static Stream<ThemeData> get onSkinChanged => FskinRemoteConfig.onSkinChanged;
+  static final FskinLogger _logger = FskinLogger();
 
   // Private constructor
   FlutterSkin._();
 
   static Future<FlutterSkin> init({required String apiKey}) async {
     if (apiKey.trim().isEmpty) {
+      _logger.logError('apiKey must not be empty');
       throw ArgumentError.value(apiKey, 'apiKey', 'apiKey must not be empty');
     }
     if (_instance == null) {
@@ -40,6 +43,9 @@ class FlutterSkin with WidgetsBindingObserver {
 
   /// Start listening to the backend stream for skin and projects updates
   static void _startStream() {
+    _logger.logMessage(
+      'Starting stream connection to listen for skin updates.',
+    );
     _sse.listen(
       apiKey: _instance!.apiKey,
       onSkinUpdated: FskinRemoteConfig.singleton.fetchConfig,
@@ -51,6 +57,7 @@ class FlutterSkin with WidgetsBindingObserver {
     // When the app is resumed, fetch the latest config and restart the stream.
     if (state == AppLifecycleState.resumed) {
       try {
+        _logger.logMessage('Fetching latest config and restarting stream.');
         await FskinRemoteConfig.singleton.fetchConfig();
       } finally {
         _startStream();
@@ -58,6 +65,7 @@ class FlutterSkin with WidgetsBindingObserver {
 
       // When the app is paused, dispose the stream to save resources.
     } else if (state == AppLifecycleState.paused) {
+      _logger.logMessage('Disposing stream to save resources.');
       _sse.dispose();
     }
   }
@@ -70,9 +78,11 @@ class FlutterSkin with WidgetsBindingObserver {
     ThemeData remoteTheme = ThemeData(colorScheme: colors);
     if (colors == null) {
       if (fallbackTheme != null) {
+        _logger.logWarning('No active theme found. Returning fallback theme.');
         return fallbackTheme;
       }
     } else {
+      _logger.logMessage('Active theme found. Returning remote theme.');
       return remoteTheme;
     }
     return null;

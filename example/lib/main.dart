@@ -6,7 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSkin.init(
     apiKey:
-        "fsk_b4331e99326b000434d601a80284abf89b8425e5f246f3b76a924c9d04486012",
+        "fsk_9a8ea7f3a0deaf89470bdcfdd762b3d3c0fd63b086a08a24bcdd46c82755cd36",
   );
   runApp(const MyApp());
 }
