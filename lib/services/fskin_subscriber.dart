@@ -6,7 +6,6 @@ import 'package:flutter_skin/services/fskin_logger.dart';
 import 'package:http/http.dart' as http;
 
 class FskinSubscriber {
-
   StreamSubscription? _subscription;
   late http.Client _client;
   int _retryCount = 0;
@@ -46,14 +45,20 @@ class FskinSubscriber {
                   _logger.logMessage('Stream connection closed. Retrying...');
                   _retry(apiKey, baseUrl, onSkinUpdated);
                 },
-                onError: (_) {
-                  _logger.logError('Stream connection error. Retrying...');
+                onError: (e) {
+                  _logger.logError(
+                    'Stream connection error. Retrying...',
+                    errorObject: e,
+                  );
                   _retry(apiKey, baseUrl, onSkinUpdated);
                 },
               );
         })
-        .catchError((_) {
-          _logger.logError('Stream connection error. Retrying...');
+        .catchError((e) {
+          _logger.logError(
+            'Stream connection error. Retrying...',
+            errorObject: e,
+          );
           _retry(apiKey, baseUrl, onSkinUpdated);
         });
   }
@@ -69,6 +74,9 @@ class FskinSubscriber {
   }
 
   void dispose() {
+    _logger.logMessage(
+      'Disposing FskinSubscriber and closing stream connection.',
+    );
     _disposed = true;
     _subscription?.cancel();
     _client.close();

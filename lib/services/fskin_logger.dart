@@ -25,6 +25,7 @@ class FskinLogger {
       time: DateTime.now(),
       name: 'FskinLogger',
       error: errorObject,
+      stackTrace: StackTrace.current,
     );
   }
 
