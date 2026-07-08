@@ -18,7 +18,10 @@ class FlutterSkin with WidgetsBindingObserver {
   // Private constructor
   FlutterSkin._();
 
-  static Future<FlutterSkin> init({required String apiKey}) async {
+  static Future<FlutterSkin> init({
+    required String apiKey,
+    @visibleForTesting FskinRemoteConfig? remoteConfig,
+  }) async {
     if (apiKey.trim().isEmpty) {
       _logger.logError('apiKey must not be empty');
       throw ArgumentError.value(apiKey, 'apiKey', 'apiKey must not be empty');
@@ -33,7 +36,11 @@ class FlutterSkin with WidgetsBindingObserver {
     }
     _instance!.apiKey = apiKey;
 
-    await FskinRemoteConfig.init(apiKey: apiKey);
+    if (remoteConfig != null) {
+      FlutterSkin.remoteConfig = remoteConfig;
+    } else {
+      FlutterSkin.remoteConfig = await FskinRemoteConfig.init(apiKey: apiKey);
+    }
 
     return _instance!;
   }
@@ -108,11 +115,5 @@ class FlutterSkin with WidgetsBindingObserver {
   @visibleForTesting
   static void resetInstance() {
     _instance = null;
-    FlutterSkin.remoteConfig = FskinRemoteConfig.singleton;
-  }
-
-  @visibleForTesting
-  void setRemoteConfig(FskinRemoteConfig remoteConfig) {
-    FlutterSkin.remoteConfig = remoteConfig;
   }
 }
