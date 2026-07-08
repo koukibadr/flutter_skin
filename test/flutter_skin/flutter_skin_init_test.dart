@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_skin/flutter_skin.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
+import 'package:flutter_skin/services/skin_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../mocks/skin_model_mocks.dart';
 
 class MockFskinRemoteConfig extends Mock implements FskinRemoteConfig {}
 
 class MockProjectConfig extends Mock implements ProjectConfig {}
+
+class MockSkinService extends Mock implements SkinService {}
 
 void main() async {
   group('FlutterSkin Initialization Tests', () {
@@ -18,13 +21,14 @@ void main() async {
 
     setUp(() async {
       TestWidgetsFlutterBinding.ensureInitialized();
-      await FlutterSkin.init(apiKey: apiKey);
+      FlutterSkin.resetInstance();
+      await FlutterSkin.init(
+        apiKey: apiKey,
+        remoteConfig: MockFskinRemoteConfig(),
+      );
     });
 
-    test('fetches and applies skin on successful response', () async {
-      // Testing with fake api key will result in null theme.
-      await FlutterSkin.init(apiKey: apiKey);
-
+    test('Checking FlutterSkin initialization with fake API key', () async {
       final skin = FlutterSkin.theme;
       final instance = FlutterSkin.singleton;
 
@@ -32,13 +36,12 @@ void main() async {
       expect(skin, null);
     });
 
-    test('applies skin from remote config', () async {
+    test('Veryfing skin model initalization with remote config', () async {
       final instance = FlutterSkin.singleton;
 
-      instance.setRemoteConfig(MockFskinRemoteConfig());
       when(
-        FlutterSkin.remoteConfig.projectConfig,
-      ).thenReturn(ProjectConfig(skin: skinModelMock));
+        () => FlutterSkin.remoteConfig.projectConfig,
+      ).thenAnswer((_) => ProjectConfig(skin: skinModelMock));
 
       final skin = FlutterSkin.theme;
       expect(instance.apiKey, apiKey);
@@ -48,11 +51,9 @@ void main() async {
 
     test('project config returns a nullable skin', () async {
       final instance = FlutterSkin.singleton;
-
-      instance.setRemoteConfig(MockFskinRemoteConfig());
       when(
-        FlutterSkin.remoteConfig.projectConfig,
-      ).thenReturn(MockProjectConfig());
+        () => FlutterSkin.remoteConfig.projectConfig,
+      ).thenAnswer((_) => MockProjectConfig());
 
       var skin = FlutterSkin.theme;
       expect(instance.apiKey, apiKey);
