@@ -28,7 +28,7 @@ class SkinService {
             body: jsonEncode({'apiKey': apiKey}),
           )
           .timeout(const Duration(seconds: 5));
-        
+
       _logger.logMessage(
         'Received response with status code: ${response.statusCode}',
       );

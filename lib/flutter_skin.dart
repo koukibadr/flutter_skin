@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' show ThemeData, ColorScheme;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 import 'package:flutter_skin/services/fskin_logger.dart';
@@ -10,7 +11,8 @@ class FlutterSkin with WidgetsBindingObserver {
 
   late String apiKey;
   static final FskinSubscriber _sse = FskinSubscriber();
-  static Stream<ThemeData> get onSkinChanged => FskinRemoteConfig.onSkinChanged;
+  static FskinRemoteConfig remoteConfig = FskinRemoteConfig.singleton;
+  static Stream<ThemeData> get onSkinChanged => remoteConfig.onSkinChanged;
   static final FskinLogger _logger = FskinLogger();
 
   // Private constructor
@@ -20,7 +22,11 @@ class FlutterSkin with WidgetsBindingObserver {
     if (apiKey.trim().isEmpty) {
       _logger.logError('apiKey must not be empty');
       throw ArgumentError.value(apiKey, 'apiKey', 'apiKey must not be empty');
+    } else if (RegExp(FskinConstants.keyRegex).hasMatch(apiKey) == false) {
+      _logger.logError('apiKey is not valid');
+      throw ArgumentError.value(apiKey, 'apiKey', 'apiKey is not valid');
     }
+
     if (_instance == null) {
       _instance = FlutterSkin._();
       WidgetsBinding.instance.addObserver(_instance!);
@@ -48,7 +54,7 @@ class FlutterSkin with WidgetsBindingObserver {
     );
     _sse.listen(
       apiKey: _instance!.apiKey,
-      onSkinUpdated: FskinRemoteConfig.singleton.fetchConfig,
+      onSkinUpdated: remoteConfig.fetchConfig,
     );
   }
 
@@ -58,7 +64,7 @@ class FlutterSkin with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       try {
         _logger.logMessage('Fetching latest config and restarting stream.');
-        await FskinRemoteConfig.singleton.fetchConfig();
+        await remoteConfig.fetchConfig();
       } finally {
         _startStream();
       }
@@ -73,7 +79,7 @@ class FlutterSkin with WidgetsBindingObserver {
   /// Query current active theme from remote config and return as ThemeData.
   /// When there's no active theme, the result is null or fallbackTheme if provided.
   static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
-    ProjectConfig? config = FskinRemoteConfig.projectConfig;
+    ProjectConfig? config = remoteConfig.projectConfig;
     ColorScheme? colors = config?.skin?.colors;
     ThemeData remoteTheme = ThemeData(colorScheme: colors);
     if (colors == null) {
@@ -91,6 +97,22 @@ class FlutterSkin with WidgetsBindingObserver {
   /// Query current active theme from remote config and return as ThemeData.
   /// When there's no active theme, the result is null.
   static ThemeData? get theme {
+    if (_instance == null) {
+      throw Exception(
+        'FlutterSkin must be initialized with FlutterSkin.init()',
+      );
+    }
     return toThemeData();
+  }
+
+  @visibleForTesting
+  static void resetInstance() {
+    _instance = null;
+    FlutterSkin.remoteConfig = FskinRemoteConfig.singleton;
+  }
+
+  @visibleForTesting
+  void setRemoteConfig(FskinRemoteConfig remoteConfig) {
+    FlutterSkin.remoteConfig = remoteConfig;
   }
 }

@@ -15,9 +15,9 @@ class FskinRemoteConfig {
   late String apiKey;
   ProjectConfig? _cachedConfig;
 
-  static Stream<ThemeData> get onSkinChanged => _skinController.stream;
+  Stream<ThemeData> get onSkinChanged => _skinController.stream;
 
-  static ProjectConfig? get projectConfig {
+  ProjectConfig? get projectConfig {
     if (_instance == null) {
       throw Exception(
         'FskinRemoteConfig must be initialized with FskinRemoteConfig.init()',
