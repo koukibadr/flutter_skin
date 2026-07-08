@@ -2,20 +2,23 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  
-  analyze-code:
+  dart_format_and_analyze:
+    name: dart format and analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - name: Install dependencies
-        run: flutter pub get
-      
+
+      - name: Run pub get
+        run: dart pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
       - name: Running Flutter analysis on package code
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings --write=analysis_report.txt
+        run: flutter analyze --no-fatal-warnings --write=analysis_report.txt
       
       - name: Artifact analysis report
         uses: actions/upload-artifact@v4
@@ -25,3 +28,37 @@ jobs:
           path: |
             analysis_report.txt
           retention-days: 15
+     
+  unit-test:
+    needs: dart_format_and_analyze
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Run unit tests
+        run: flutter test
+
+  dry-run-upload:
+    needs: unit-test
+    name: Dry run upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      
+      - name: Install dependencies
+        run: flutter pub get
+      
+      - name: Check Publish Warnings
+        run: dart pub publish --dry-run
