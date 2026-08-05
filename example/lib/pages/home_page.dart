@@ -202,12 +202,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: [
           TextButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondaryContainer),
-              foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.onSecondaryContainer),
-            ),
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            onPressed: () {
+              print('onTertiaryContainer: ${Theme.of(context).colorScheme.onTertiaryContainer}');
+              Navigator.pop(context);
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text('Close', style: TextStyle(color: Theme.of(context).colorScheme.onTertiaryContainer))),
           ),
         ],
       ),
