@@ -170,7 +170,21 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(movie.title),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.6),
+                Theme.of(context).colorScheme.secondary.withValues(alpha: 0.6),
+              ],
+            ),
+          ),
+          child: Text(movie.title, style: TextStyle(color: Theme.of(context).colorScheme.onTertiary)),
+        ),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -188,6 +202,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: [
           TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.secondaryContainer),
+              foregroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.onSecondaryContainer),
+            ),
             onPressed: () => Navigator.pop(context),
             child: const Text('Close'),
           ),
