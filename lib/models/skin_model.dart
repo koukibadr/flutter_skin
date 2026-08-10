@@ -26,7 +26,6 @@ class SkinModel {
 
   /// Factory constructor to create SkinModel from a map
   factory SkinModel.fromMap(Map<String, dynamic> map) {
-    print('SkinModel.fromMap called with map: $map');
     final tokens = map['tokens'];
     return SkinModel(
       id: map['id'] as String? ?? '',
