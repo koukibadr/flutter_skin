@@ -206,9 +206,6 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           TextButton(
             onPressed: () {
-              print(
-                'onTertiaryContainer: ${Theme.of(context).colorScheme.onTertiaryContainer}',
-              );
               Navigator.pop(context);
             },
             child: Container(
