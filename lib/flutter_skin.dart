@@ -92,7 +92,10 @@ class FlutterSkin with WidgetsBindingObserver {
     ProjectConfig? config = remoteConfig.projectConfig;
     ColorScheme? colors = config?.skin?.colors;
     String? fontFamily = config?.skin?.fontFamily;
-    ThemeData remoteTheme = ThemeData(colorScheme: colors, fontFamily: fontFamily);
+    ThemeData remoteTheme = ThemeData(
+      colorScheme: colors,
+      fontFamily: fontFamily,
+    );
     if (colors == null) {
       if (fallbackTheme != null) {
         _logger.logWarning('No active theme found. Returning fallback theme.');

@@ -102,9 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: theme.colorScheme.primary,
         title: Text(
           widget.title,
-          style: TextStyle(
-            color: theme.colorScheme.onPrimary,
-          ),
+          style: TextStyle(color: theme.colorScheme.onPrimary),
         ),
       ),
       body: Row(
