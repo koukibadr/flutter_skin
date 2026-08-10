@@ -10,6 +10,7 @@ class SkinModel {
   final DateTime? publishedAt;
   final DateTime? deletedAt;
   final ColorScheme? colors;
+  final String? fontFamily;
 
   SkinModel({
     required this.id,
@@ -18,12 +19,14 @@ class SkinModel {
     required this.version,
     required this.createdAt,
     required this.colors,
+    this.fontFamily,
     this.publishedAt,
     this.deletedAt,
   });
 
   /// Factory constructor to create SkinModel from a map
   factory SkinModel.fromMap(Map<String, dynamic> map) {
+    print('SkinModel.fromMap called with map: $map');
     final tokens = map['tokens'];
     return SkinModel(
       id: map['id'] as String? ?? '',
@@ -42,6 +45,7 @@ class SkinModel {
       colors: tokens is Map<String, dynamic>
           ? fromSchemaString(tokens)?.colors
           : null,
+      fontFamily: map['font'] as String?,
     );
   }
 

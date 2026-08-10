@@ -102,7 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: theme.colorScheme.primary,
         title: Text(
           widget.title,
-          style: TextStyle(color: theme.colorScheme.onPrimary),
+          style: TextStyle(
+            color: theme.colorScheme.onPrimary,
+          ),
         ),
       ),
       body: Row(
@@ -183,7 +185,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          child: Text(movie.title, style: TextStyle(color: Theme.of(context).colorScheme.onTertiary)),
+          child: Text(
+            movie.title,
+            style: TextStyle(color: Theme.of(context).colorScheme.onTertiary),
+          ),
         ),
         content: SingleChildScrollView(
           child: Column(
@@ -203,7 +208,9 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           TextButton(
             onPressed: () {
-              print('onTertiaryContainer: ${Theme.of(context).colorScheme.onTertiaryContainer}');
+              print(
+                'onTertiaryContainer: ${Theme.of(context).colorScheme.onTertiaryContainer}',
+              );
               Navigator.pop(context);
             },
             child: Container(
@@ -212,7 +219,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Theme.of(context).colorScheme.tertiaryContainer,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Text('Close', style: TextStyle(color: Theme.of(context).colorScheme.onTertiaryContainer))),
+              child: Text(
+                'Close',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
+              ),
+            ),
           ),
         ],
       ),
