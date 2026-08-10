@@ -15,6 +15,9 @@ class FlutterSkin with WidgetsBindingObserver {
   static Stream<ThemeData> get onSkinChanged => remoteConfig.onSkinChanged;
   static final FskinLogger _logger = FskinLogger();
 
+  /// Returns the font family of the current active theme from the remote configuration.
+  static String? get themeFont => remoteConfig.projectConfig?.skin?.fontFamily;
+
   // Private constructor
   FlutterSkin._();
 
@@ -88,7 +91,8 @@ class FlutterSkin with WidgetsBindingObserver {
   static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
     ProjectConfig? config = remoteConfig.projectConfig;
     ColorScheme? colors = config?.skin?.colors;
-    ThemeData remoteTheme = ThemeData(colorScheme: colors);
+    String? fontFamily = config?.skin?.fontFamily;
+    ThemeData remoteTheme = ThemeData(colorScheme: colors, fontFamily: fontFamily);
     if (colors == null) {
       if (fallbackTheme != null) {
         _logger.logWarning('No active theme found. Returning fallback theme.');
