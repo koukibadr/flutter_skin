@@ -107,9 +107,9 @@ class FlutterSkin with WidgetsBindingObserver {
       colorScheme: colors,
       fontFamily:
           fontFamily ??
-          GoogleFonts.getFont(
-            googleFont ?? fallbackFont ?? 'Roboto',
-          ).fontFamily,
+          (googleFont != null
+              ? GoogleFonts.getFont(googleFont).fontFamily
+              : fallbackFont ?? 'Roboto'),
     );
     if (colors == null) {
       if (fallbackTheme != null) {
