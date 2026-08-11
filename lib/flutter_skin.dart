@@ -5,6 +5,7 @@ import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 import 'package:flutter_skin/services/fskin_logger.dart';
 import 'package:flutter_skin/services/fskin_subscriber.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FlutterSkin with WidgetsBindingObserver {
   static FlutterSkin? _instance;
@@ -88,13 +89,27 @@ class FlutterSkin with WidgetsBindingObserver {
 
   /// Query current active theme from remote config and return as ThemeData.
   /// When there's no active theme, the result is null or fallbackTheme if provided.
-  static ThemeData? toThemeData({ThemeData? fallbackTheme}) {
+  static ThemeData? toThemeData({
+    ThemeData? fallbackTheme,
+    String? fallbackFont,
+  }) {
     ProjectConfig? config = remoteConfig.projectConfig;
     ColorScheme? colors = config?.skin?.colors;
-    String? fontFamily = config?.skin?.fontFamily;
+
+    String? fontFamily = (config?.skin?.fontFamily?.isEmpty == true)
+        ? null
+        : config?.skin?.fontFamily;
+    String? googleFont = config?.skin?.googleFont?.isEmpty == true
+        ? null
+        : config?.skin?.googleFont;
+
     ThemeData remoteTheme = ThemeData(
       colorScheme: colors,
-      fontFamily: fontFamily,
+      fontFamily:
+          fontFamily ??
+          GoogleFonts.getFont(
+            googleFont ?? fallbackFont ?? 'Roboto',
+          ).fontFamily,
     );
     if (colors == null) {
       if (fallbackTheme != null) {

@@ -11,6 +11,7 @@ class SkinModel {
   final DateTime? deletedAt;
   final ColorScheme? colors;
   final String? fontFamily;
+  final String? googleFont;
 
   SkinModel({
     required this.id,
@@ -20,6 +21,7 @@ class SkinModel {
     required this.createdAt,
     required this.colors,
     this.fontFamily,
+    this.googleFont,
     this.publishedAt,
     this.deletedAt,
   });
@@ -45,6 +47,7 @@ class SkinModel {
           ? fromSchemaString(tokens)?.colors
           : null,
       fontFamily: map['font'] as String?,
+      googleFont: map['googleFont'] as String?,
     );
   }
 
