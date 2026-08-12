@@ -1,6 +1,17 @@
+## 0.0.3 - 2026-08-12
+
+> Fonts and Typography tokens are now supported! The `flutter_skin` package can now dynamically update fonts and typography styles.
+
+### Added
+- Support typography tokens and google font updates based on SSE updates
+- Setup fallback font when the font is not available on the device or the google font fails to load
+- Add logging for SSE connection events and errors to help with debugging [PR #6](https://github.com/koukibadr/flutter_skin/pull/6)
+- Update Example app to demonstrate typography token usage and font updates
+- Update Example app to use new Material Design new tokens tertiary color, onTertiary color
+
 ## 0.0.2 - 2026-06-24
 
-- Live skin updates.
+> Live skin updates is here! The `flutter_skin` package now supports real-time skin changes via Server-Sent Events (SSE) from the FSkin backend.
 
 ### Added
 

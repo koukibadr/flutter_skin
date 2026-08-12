@@ -121,6 +121,30 @@ These map directly to Flutter's `ColorScheme` — `FlutterSkin.toThemeData()` co
 
 **Upcoming versions: more tokens and more customization**
 
+## Fonts and Typography
+
+The current skin model supports dynamic fonts and typography styles. You can setup a font or google font for your skin and the package will automatically update the font and typography styles based on SSE updates.
+
+### Custom Fonts
+You can define a custom font for your skin and the package will automatically update the font and typography
+- Setup your font file in your project and define it in your `pubspec.yaml` file.
+
+```yaml
+flutter:
+  fonts:
+    - family: CustomFont
+      fonts:
+        - asset: fonts/CustomFont-Regular.ttf
+```
+
+- Add your custom font to your skin in the FSkin dashboard and publish it.
+
+### Google Fonts
+You can also define a google font for your skin and the package will automatically update the font and typography styles based on SSE updates.
+
+- Add your google font to your skin in the FSkin dashboard and publish it.
+- No other setup is required, the package will automatically fetch the google font and update the typography styles.
+
 ## Offline Fallback
 You can also define a fallback skin that the package will use if fetching the remote skin fails (e.g., no internet, server error). This ensures your app always has a consistent appearance, even without connectivity:
 
