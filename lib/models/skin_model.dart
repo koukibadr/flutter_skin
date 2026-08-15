@@ -79,7 +79,6 @@ class SkinModel {
       'colors': colors != null ? colorSchemeToJson(colors!) : null,
       'font': fontFamily,
       'googleFont': googleFont,
-      'TTL': 3600,
     };
   }
 }
