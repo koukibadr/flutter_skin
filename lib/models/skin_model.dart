@@ -66,4 +66,20 @@ class SkinModel {
       return null;
     }
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'projectId': projectId,
+      'isActive': isActive,
+      'version': version,
+      'createdAt': createdAt.toIso8601String(),
+      'publishedAt': publishedAt?.toIso8601String(),
+      'deletedAt': deletedAt?.toIso8601String(),
+      'colors': colors != null ? colorSchemeToJson(colors!) : null,
+      'font': fontFamily,
+      'googleFont': googleFont,
+      'TTL': 3600,
+    };
+  }
 }

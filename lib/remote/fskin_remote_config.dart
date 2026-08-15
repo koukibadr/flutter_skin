@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
+import 'package:flutter_skin/services/cache_service.dart';
 import 'package:flutter_skin/services/skin_service.dart';
 
 /// Singleton class responsible for managing the remote configuration of the skin.
@@ -17,6 +18,7 @@ class FskinRemoteConfig {
   ProjectConfig? _cachedConfig;
 
   SkinService? skinService;
+  CacheService cacheService = CacheService();
 
   Stream<ThemeData> get onSkinChanged => _skinController.stream;
 
@@ -58,6 +60,7 @@ class FskinRemoteConfig {
     }
 
     _instance!.apiKey = apiKey;
+    _instance!.cacheService.saveApiKey(apiKey);
     if (skinService != null) {
       _instance!.skinService = skinService;
     } else {
@@ -70,7 +73,7 @@ class FskinRemoteConfig {
   Future<void> fetchConfig() async {
     // Call the skin service to fetch skin for developer and project
     //final skin = await SkinService().getSkin(apiKey);
-    _cachedConfig = await skinService?.fetchData(apiKey);
+    _cachedConfig = await skinService?.fetchData();
     _skinController.add(ThemeData(colorScheme: _cachedConfig?.skin?.colors));
   }
 

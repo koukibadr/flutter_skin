@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
+import 'package:flutter_skin/services/cache_service.dart';
 import 'package:flutter_skin/services/fskin_logger.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 class SkinService {
   static final SkinService _instance = SkinService._();
   final FskinLogger _logger = FskinLogger();
+  final CacheService _cacheService = CacheService();
 
   SkinService._();
 
@@ -17,10 +19,11 @@ class SkinService {
     return _instance;
   }
 
-  Future<ProjectConfig?> fetchData(String apiKey) async {
+  Future<ProjectConfig?> fetchData() async {
     _logger.logMessage('Fetching skin configuration for the provided apiKey.');
     var client = http.Client();
     try {
+      final apiKey = await _cacheService.getApiKey();
       var response = await client
           .post(
             Uri.https(FskinConstants.baseUrl, 'fskin/skin'),
@@ -42,9 +45,27 @@ class SkinService {
 
       var decodedResponse =
           jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
-      return ProjectConfig.fromMap(decodedResponse);
+      var projectConfig = ProjectConfig.fromMap(decodedResponse);
+      _cacheService.saveProjectConfig(decodedResponse);
+      return projectConfig;
     } catch (e) {
       _logger.logError('Error fetching skin configuration: $e', errorObject: e);
+
+      final savedProjectConfig = await _cacheService.getProjectConfig();
+      final savedLastUpdated = await _cacheService.getLastUpdated();
+
+      if (savedProjectConfig != null && savedLastUpdated != null) {
+        final currentTime = DateTime.now();
+        final difference = currentTime.difference(savedLastUpdated);
+        // If the cached data is less than or equal to 3 days old, return the cached configuration
+        if (difference.inDays <= 3) {
+          _logger.logMessage(
+            'Using cached skin configuration. Last updated: $savedLastUpdated',
+          );
+          return savedProjectConfig;
+        }
+      }
+
       return null;
     } finally {
       client.close();
