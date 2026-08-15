@@ -40,7 +40,7 @@ class SkinService {
           'Error fetching skin configuration: ${response.statusCode}',
           errorObject: response,
         );
-        return null;
+        return await getCachedConfig();
       }
 
       var decodedResponse =
@@ -50,25 +50,27 @@ class SkinService {
       return projectConfig;
     } catch (e) {
       _logger.logError('Error fetching skin configuration: $e', errorObject: e);
-
-      final savedProjectConfig = await _cacheService.getProjectConfig();
-      final savedLastUpdated = await _cacheService.getLastUpdated();
-
-      if (savedProjectConfig != null && savedLastUpdated != null) {
-        final currentTime = DateTime.now();
-        final difference = currentTime.difference(savedLastUpdated);
-        // If the cached data is less than or equal to 3 days old, return the cached configuration
-        if (difference.inDays <= 3) {
-          _logger.logMessage(
-            'Using cached skin configuration. Last updated: $savedLastUpdated',
-          );
-          return savedProjectConfig;
-        }
-      }
-
-      return null;
+      return await getCachedConfig();
     } finally {
       client.close();
     }
+  }
+
+  Future<ProjectConfig?> getCachedConfig() async {
+    final savedProjectConfig = await _cacheService.getProjectConfig();
+    final savedLastUpdated = await _cacheService.getLastUpdated();
+
+    if (savedProjectConfig != null && savedLastUpdated != null) {
+      final currentTime = DateTime.now();
+      final difference = currentTime.difference(savedLastUpdated);
+      // If the cached data is less than or equal to 3 days old, return the cached configuration
+      if (difference.inDays <= 3) {
+        _logger.logMessage(
+          'Using cached skin configuration. Last updated: $savedLastUpdated',
+        );
+        return savedProjectConfig;
+      }
+    }
+    return null;
   }
 }
