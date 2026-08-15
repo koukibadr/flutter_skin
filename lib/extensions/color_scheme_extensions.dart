@@ -19,3 +19,18 @@ ColorScheme colorSchemeFromJson(Map<String, dynamic> map) {
         : Brightness.light,
   );
 }
+
+Map<String, dynamic> colorSchemeToJson(ColorScheme colorScheme) {
+  return {
+    'primary': colorScheme.primary.toHexString(),
+    'secondary': colorScheme.secondary.toHexString(),
+    'secondaryContainer': colorScheme.secondaryContainer.toHexString(),
+    'surface': colorScheme.surface.toHexString(),
+    'error': colorScheme.error.toHexString(),
+    'onPrimary': colorScheme.onPrimary.toHexString(),
+    'onSecondary': colorScheme.onSecondary.toHexString(),
+    'onSurface': colorScheme.onSurface.toHexString(),
+    'onError': colorScheme.onError.toHexString(),
+    'brightness': colorScheme.brightness == Brightness.dark ? 'dark' : 'light',
+  };
+}
