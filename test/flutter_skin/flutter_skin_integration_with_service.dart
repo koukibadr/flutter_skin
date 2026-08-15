@@ -26,7 +26,7 @@ void main() {
 
     test('Verifying Service returning valid skin theme data', () async {
       when(
-        () => mockSkinService?.fetchData(apiKey),
+        () => mockSkinService?.fetchData(),
       ).thenAnswer((_) async => ProjectConfig(skin: skinModelMock));
 
       var remoteConfig = await FskinRemoteConfig.init(
@@ -45,7 +45,7 @@ void main() {
 
     test('Verifying Service returning null skin theme data', () async {
       when(
-        () => mockSkinService?.fetchData(apiKey),
+        () => mockSkinService?.fetchData(),
       ).thenAnswer((_) async => ProjectConfig(skin: null));
 
       var remoteConfig = await FskinRemoteConfig.init(
@@ -66,7 +66,7 @@ void main() {
       'Verifying Service returning null skin value with fallback theme data',
       () async {
         when(
-          () => mockSkinService?.fetchData(apiKey),
+          () => mockSkinService?.fetchData(),
         ).thenAnswer((_) async => ProjectConfig(skin: null));
 
         var remoteConfig = await FskinRemoteConfig.init(
@@ -92,7 +92,7 @@ void main() {
       'Verifying Service returning valid skin data with fallback theme data',
       () async {
         when(
-          () => mockSkinService?.fetchData(apiKey),
+          () => mockSkinService?.fetchData(),
         ).thenAnswer((_) async => ProjectConfig(skin: skinModelMock));
 
         var remoteConfig = await FskinRemoteConfig.init(
