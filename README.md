@@ -54,7 +54,7 @@ Sign up at [app.fskin.dev](https://app.fskin.dev), create a project, and copy yo
 
 ```yaml
 dependencies:
-  flutter_skin: ^0.0.2
+  flutter_skin: ^0.0.4
 ```
 
 ```bash
@@ -98,6 +98,8 @@ That's it your app is FlutterSkin now.
 **No wrapper needed nor additional setup, perfect for quick integration on built projects.**
 
 ---
+
+# What FlutterSkin does
 
 ## Available Color Tokens
 
@@ -145,6 +147,14 @@ You can also define a google font for your skin and the package will automatical
 - Add your google font to your skin in the FSkin dashboard and publish it.
 - No other setup is required, the package will automatically fetch the google font and update the typography styles.
 
+## Caching and Offline Support
+The package caches the last fetched skin on the device, so your app will still have a consistent appearance even if the user is offline or the server is unreachable. The cache TTL is set to 3 days by default. In the future, you can customize it in the `FlutterSkin.init()` method.
+
+## SSE (Server-Sent Events) Updates
+The package uses SSE to listen for skin updates from the FSkin server. When a new skin is published, the package will automatically fetch the new skin and update the app's appearance in real-time, without requiring a restart or rebuild. This ensures that your users always see the latest skin without any manual intervention.
+
+For fonts and typography updates, the package will automatically fetch the new font and update the typography styles based on SSE updates but the app will need to be restarted for the new font to take effect. This is because fonts are loaded at app startup and cannot be changed dynamically at runtime.
+
 ## Offline Fallback
 You can also define a fallback skin that the package will use if fetching the remote skin fails (e.g., no internet, server error). This ensures your app always has a consistent appearance, even without connectivity:
 
@@ -171,32 +181,6 @@ return MaterialApp(
       );
 
 ```
----
-
-
-## The Skin JSON Format
-
-This is what the package fetches from the FSkin:
-
-```json
-{
-  "name": "default",
-  "version": 1,
-  "colors": {
-    "primary": "#6C63FF",
-    "secondary": "#FF6584",
-    "background": "#FFFFFF",
-    "surface": "#F9F9FB",
-    "error": "#EF4444",
-    "onPrimary": "#FFFFFF",
-    "onSecondary": "#000000",
-    "onBackground": "#0D0D0D",
-    "onSurface": "#1C1B1F",
-    "onError": "#FFFFFF",
-    "brightness": "light"
-  }
-}
-```
 
 ---
 
@@ -205,6 +189,7 @@ This is what the package fetches from the FSkin:
 Skins are created and published from the [FSkin dashboard](https://app.fskin.dev):
 
 - Create multiple skins per project (currently just 2 since we're actively developing the dashboard, but more will come)
+- Edit theme typography with custom fonts or Google Fonts
 - Publish a skin with one click — all connected apps update within seconds
 - Clone an existing skin as a starting point
 ---

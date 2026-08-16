@@ -1,3 +1,11 @@
+## 0.0.4 - 2026-08-16
+
+> Caching and offline support is now available!
+
+### Added
+- Caching and offline support for the last fetched skin. The package will use the cached skin if the user is offline or the server is unreachable. 
+- Cache TTL is set to 3 days by default. 
+
 ## 0.0.3 - 2026-08-12
 
 > Fonts and Typography tokens are now supported! The `flutter_skin` package can now dynamically update fonts and typography styles.
