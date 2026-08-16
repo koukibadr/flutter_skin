@@ -99,9 +99,9 @@ That's it your app is FlutterSkin now.
 
 ---
 
-# What FlutterSkin does
+## What FlutterSkin does
 
-## Available Color Tokens
+### Available Color Tokens
 
 The current skin model supports a full Material-compatible color scheme:
 
@@ -123,11 +123,11 @@ These map directly to Flutter's `ColorScheme` — `FlutterSkin.toThemeData()` co
 
 **Upcoming versions: more tokens and more customization**
 
-## Fonts and Typography
+### Fonts and Typography
 
 The current skin model supports dynamic fonts and typography styles. You can setup a font or google font for your skin and the package will automatically update the font and typography styles based on SSE updates.
 
-### Custom Fonts
+#### Custom Fonts
 You can define a custom font for your skin and the package will automatically update the font and typography
 - Setup your font file in your project and define it in your `pubspec.yaml` file.
 
@@ -141,21 +141,21 @@ flutter:
 
 - Add your custom font to your skin in the FSkin dashboard and publish it.
 
-### Google Fonts
+#### Google Fonts
 You can also define a google font for your skin and the package will automatically update the font and typography styles based on SSE updates.
 
 - Add your google font to your skin in the FSkin dashboard and publish it.
 - No other setup is required, the package will automatically fetch the google font and update the typography styles.
 
-## Caching and Offline Support
+### Caching and Offline Support
 The package caches the last fetched skin on the device, so your app will still have a consistent appearance even if the user is offline or the server is unreachable. The cache TTL is set to 3 days by default. In the future, you can customize it in the `FlutterSkin.init()` method.
 
-## SSE (Server-Sent Events) Updates
+### SSE (Server-Sent Events) Updates
 The package uses SSE to listen for skin updates from the FSkin server. When a new skin is published, the package will automatically fetch the new skin and update the app's appearance in real-time, without requiring a restart or rebuild. This ensures that your users always see the latest skin without any manual intervention.
 
 For fonts and typography updates, the package will automatically fetch the new font and update the typography styles based on SSE updates but the app will need to be restarted for the new font to take effect. This is because fonts are loaded at app startup and cannot be changed dynamically at runtime.
 
-## Offline Fallback
+### Offline Fallback
 You can also define a fallback skin that the package will use if fetching the remote skin fails (e.g., no internet, server error). This ensures your app always has a consistent appearance, even without connectivity:
 
 ```dart
