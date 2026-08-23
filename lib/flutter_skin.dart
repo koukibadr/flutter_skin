@@ -124,6 +124,43 @@ class FlutterSkin with WidgetsBindingObserver {
   }
 
   /// Query current active theme from remote config and return as ThemeData.
+  /// When there's no active theme, the result is null or fallbackTheme if provided.
+  static ThemeData? darkTheme({
+    ThemeData? fallbackTheme,
+    String? fallbackFont,
+  }) {
+    ProjectConfig? config = remoteConfig.projectConfig;
+    ColorScheme? darkTheme = config?.skin?.darkTheme;
+
+    String? fontFamily = (config?.skin?.fontFamily?.isEmpty == true)
+        ? null
+        : config?.skin?.fontFamily;
+
+    String? googleFont = config?.skin?.googleFont?.isEmpty == true
+        ? null
+        : config?.skin?.googleFont;
+
+    ThemeData remoteTheme = ThemeData(
+      colorScheme: darkTheme,
+      fontFamily:
+          fontFamily ??
+          (googleFont != null
+              ? GoogleFonts.getFont(googleFont).fontFamily
+              : fallbackFont ?? 'Roboto'),
+    );
+    if (darkTheme == null) {
+      if (fallbackTheme != null) {
+        _logger.logWarning('No active theme found. Returning fallback theme.');
+        return fallbackTheme;
+      }
+    } else {
+      _logger.logMessage('Active theme found. Returning remote theme.');
+      return remoteTheme;
+    }
+    return null;
+  }
+
+  /// Query current active theme from remote config and return as ThemeData.
   /// When there's no active theme, the result is null.
   static ThemeData? get theme {
     if (_instance == null) {
