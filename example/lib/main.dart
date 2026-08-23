@@ -6,7 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSkin.init(
     apiKey:
-        "fsk_dc0054468a27dde1671142669f2065f93870975bbb773f1af0ab5898797956db",
+        "fsk_b0ce429cfbded17bbca66eef6e68bd1f0b7fbf9d74be0c3a0ac8b2e0554b7919",
   );
   runApp(const MyApp());
 }
@@ -19,6 +19,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.dark;
+
   @override
   void initState() {
     super.initState();
@@ -31,8 +33,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: FlutterSkin.toThemeData(),
-      home: const MyHomePage(title: 'Movie Browser'),
+      theme: FlutterSkin.toThemeData(fallbackTheme: ThemeData.light()),
+      darkTheme: FlutterSkin.darkTheme(fallbackTheme: ThemeData.dark()),
+      themeMode: _themeMode,
+      home: MyHomePage(
+        title: 'Movie Browser',
+        themeMode: _themeMode,
+        onThemeModeChanged: (themeMode) {
+          setState(() {
+            _themeMode = themeMode;
+          });
+        },
+      ),
     );
   }
 }

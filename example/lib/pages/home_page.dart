@@ -4,9 +4,16 @@ import '../widgets/movie_card.dart';
 import '../widgets/movie_details_sidebar.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({
+    super.key,
+    required this.title,
+    required this.themeMode,
+    required this.onThemeModeChanged,
+  });
 
   final String title;
+  final ThemeMode themeMode;
+  final ValueChanged<ThemeMode> onThemeModeChanged;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -104,6 +111,30 @@ class _MyHomePageState extends State<MyHomePage> {
           widget.title,
           style: TextStyle(color: theme.colorScheme.onPrimary),
         ),
+        actions: [
+          PopupMenuButton<ThemeMode>(
+            tooltip: 'Theme settings',
+            icon: Icon(
+              widget.themeMode == ThemeMode.dark
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+              color: theme.colorScheme.onPrimary,
+            ),
+            onSelected: widget.onThemeModeChanged,
+            itemBuilder: (context) => [
+              CheckedPopupMenuItem(
+                value: ThemeMode.light,
+                checked: widget.themeMode == ThemeMode.light,
+                child: const Text('Light mode'),
+              ),
+              CheckedPopupMenuItem(
+                value: ThemeMode.dark,
+                checked: widget.themeMode == ThemeMode.dark,
+                child: const Text('Dark mode'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Row(
         children: [

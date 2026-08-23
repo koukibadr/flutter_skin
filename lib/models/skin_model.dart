@@ -10,6 +10,7 @@ class SkinModel {
   final DateTime? publishedAt;
   final DateTime? deletedAt;
   final ColorScheme? colors;
+  final ColorScheme? darkTheme;
   final String? fontFamily;
   final String? googleFont;
 
@@ -20,6 +21,7 @@ class SkinModel {
     required this.version,
     required this.createdAt,
     required this.colors,
+    this.darkTheme,
     this.fontFamily,
     this.googleFont,
     this.publishedAt,
@@ -29,6 +31,8 @@ class SkinModel {
   /// Factory constructor to create SkinModel from a map
   factory SkinModel.fromMap(Map<String, dynamic> map) {
     final tokens = map['tokens'];
+    final darkTheme = map['darkTheme'];
+
     return SkinModel(
       id: map['id'] as String? ?? '',
       projectId: map['projectId'] as String? ?? '',
@@ -45,6 +49,9 @@ class SkinModel {
           : null,
       colors: tokens is Map<String, dynamic>
           ? fromSchemaString(tokens)?.colors
+          : null,
+      darkTheme: darkTheme is Map<String, dynamic>
+          ? fromSchemaString(darkTheme)?.colors
           : null,
       fontFamily: map['font'] as String?,
       googleFont: map['googleFont'] as String?,
@@ -77,6 +84,7 @@ class SkinModel {
       'publishedAt': publishedAt?.toIso8601String(),
       'deletedAt': deletedAt?.toIso8601String(),
       'colors': colors != null ? colorSchemeToJson(colors!) : null,
+      'darkTheme': darkTheme != null ? colorSchemeToJson(darkTheme!) : null,
       'font': fontFamily,
       'googleFont': googleFont,
     };
