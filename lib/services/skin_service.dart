@@ -35,7 +35,13 @@ class SkinService {
       _logger.logMessage(
         'Received response with status code: ${response.statusCode}',
       );
-      if (response.statusCode != 200) {
+
+      if (response.statusCode == 404) {
+        _logger.logMessage(
+          'No skin configuration found for the provided apiKey.',
+        );
+        return null;
+      } else if (response.statusCode != 200) {
         _logger.logError(
           'Error fetching skin configuration: ${response.statusCode}',
           errorObject: response,

@@ -47,4 +47,10 @@ class CacheService {
     final value = prefs.getString('lastUpdated');
     return value != null ? DateTime.parse(value) : null;
   }
+
+  Future<void> clearCache() async {
+    final prefs = await sharedPreferences;
+    await prefs.remove('projectConfig');
+    await prefs.remove('lastUpdated');
+  }
 }
