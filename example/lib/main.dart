@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_skin/flutter_skin.dart';
 import 'pages/home_page.dart';
 
@@ -6,7 +6,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterSkin.init(
     apiKey:
-        "fsk_b0ce429cfbded17bbca66eef6e68bd1f0b7fbf9d74be0c3a0ac8b2e0554b7919",
+        "fsk_6de8ab29a783fbbe8269804e6c581d2f83060ad6b50f8b056983440730300a05",
   );
   runApp(const MyApp());
 }

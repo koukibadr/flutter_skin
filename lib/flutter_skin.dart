@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show ThemeData, ColorScheme;
+import 'package:material_ui/material_ui.dart' show ThemeData, ColorScheme;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
@@ -45,6 +45,7 @@ class FlutterSkin with WidgetsBindingObserver {
     } else {
       FlutterSkin.remoteConfig = await FskinRemoteConfig.init(apiKey: apiKey);
     }
+    _startStream();
 
     return _instance!;
   }
@@ -65,7 +66,12 @@ class FlutterSkin with WidgetsBindingObserver {
     );
     _sse.listen(
       apiKey: _instance!.apiKey,
-      onSkinUpdated: remoteConfig.fetchConfig,
+      onSkinUpdated: () async {
+        _logger.logMessage(
+          'Skin update event received. Fetching latest config.',
+        );
+        await remoteConfig.clearCacheAndFetchConfig();
+      },
     );
   }
 

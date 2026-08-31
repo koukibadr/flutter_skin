@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import '../models/movie.dart';
 import '../widgets/movie_card.dart';
 import '../widgets/movie_details_sidebar.dart';

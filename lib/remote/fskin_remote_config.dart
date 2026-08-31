@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/services/cache_service.dart';
@@ -68,6 +68,11 @@ class FskinRemoteConfig {
     }
     await _instance!.fetchConfig();
     return _instance!;
+  }
+
+  Future<void> clearCacheAndFetchConfig() async {
+    await cacheService.clearCache();
+    await fetchConfig();
   }
 
   Future<void> fetchConfig() async {
