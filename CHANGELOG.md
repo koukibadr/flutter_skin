@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.5 - 2026-08-31
+
+> Flutter decoupling and dark theme support is now available!
+
+### Added
+
+- Flutter decoupling support for the `flutter_skin` package, the package now uses the `material_ui` package to provide a decoupled Material Design implementation.
+- The package now supports dark theme tokens and can automatically switch between light and dark themes based on the system settings.
+
 ## 0.0.4 - 2026-08-16
 
 > Caching and offline support is now available!

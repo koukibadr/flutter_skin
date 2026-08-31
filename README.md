@@ -54,7 +54,7 @@ Sign up at [app.fskin.dev](https://app.fskin.dev), create a project, and copy yo
 
 ```yaml
 dependencies:
-  flutter_skin: ^0.0.4
+  flutter_skin: ^0.0.5
 ```
 
 ```bash
@@ -122,6 +122,10 @@ The current skin model supports a full Material-compatible color scheme:
 These map directly to Flutter's `ColorScheme` — `FlutterSkin.toThemeData()` converts them automatically.
 
 **Upcoming versions: more tokens and more customization**
+
+### Dark Theme Support
+
+The package now supports dark theme tokens and can automatically switch between light and dark themes based on the system settings. You can define a dark theme for your skin in the FSkin dashboard and publish it. The package will automatically switch between light and dark themes based on the system settings.
 
 ### Fonts and Typography
 
