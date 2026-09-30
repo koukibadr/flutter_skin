@@ -2,10 +2,13 @@ import 'package:material_ui/material_ui.dart' show ThemeData, ColorScheme;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
+import 'package:flutter_skin/models/skin_tokens.dart';
 import 'package:flutter_skin/remote/fskin_remote_config.dart';
 import 'package:flutter_skin/services/fskin_logger.dart';
 import 'package:flutter_skin/services/fskin_subscriber.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+export 'package:flutter_skin/models/skin_tokens.dart';
 
 class FlutterSkin with WidgetsBindingObserver {
   static FlutterSkin? _instance;
@@ -18,6 +21,28 @@ class FlutterSkin with WidgetsBindingObserver {
 
   /// Returns the font family of the current active theme from the remote configuration.
   static String? get themeFont => remoteConfig.projectConfig?.skin?.fontFamily;
+
+  static SkinTokens get tokens {
+    final skin = remoteConfig.projectConfig?.skin;
+    final fontFamily = skin?.fontFamily?.isEmpty == true
+        ? null
+        : skin?.fontFamily;
+    final googleFont = skin?.googleFont?.isEmpty == true
+        ? null
+        : skin?.googleFont;
+
+    return SkinTokens(
+      colors: skin?.colors ?? const ColorScheme.light(),
+      darkColors: skin?.darkTheme,
+      typography: SkinTypography(
+        fontFamily:
+            fontFamily ??
+            (googleFont != null
+                ? GoogleFonts.getFont(googleFont).fontFamily
+                : null),
+      ),
+    );
+  }
 
   // Private constructor
   FlutterSkin._();
