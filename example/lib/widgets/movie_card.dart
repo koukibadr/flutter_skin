@@ -1,3 +1,4 @@
+import 'package:flutter_skin/flutter_skin.dart';
 import 'package:material_ui/material_ui.dart';
 import '../models/movie.dart';
 
@@ -21,8 +22,17 @@ class _MovieCardState extends State<MovieCard> {
   bool _isHovered = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Get the colors theme from flutter theme
     final theme = Theme.of(context);
+
+    // Get the colors theme directly from the fskin tokens
+    final fskinTheme = FlutterSkin.tokens.colors;
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -32,7 +42,7 @@ class _MovieCardState extends State<MovieCard> {
         child: Card(
           elevation: widget.isSelected ? 12 : (_isHovered ? 8 : 2),
           color: widget.isSelected
-              ? theme.colorScheme.primaryContainer
+              ? fskinTheme.primaryContainer
               : theme.colorScheme.surface,
           child: Container(
             decoration: BoxDecoration(
