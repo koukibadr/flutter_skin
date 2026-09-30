@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6 - 2026-09-30
+
+> Flutter decoupling and dark theme support is now available!
+
+### Added
+
+- Added access to skin color and typography tokens, including configured font-family information.
+
 ## 0.0.5 - 2026-08-31
 
 > Flutter decoupling and dark theme support is now available!
