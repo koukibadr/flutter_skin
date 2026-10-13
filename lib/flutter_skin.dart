@@ -1,4 +1,5 @@
-import 'package:material_ui/material_ui.dart' show ThemeData, ColorScheme;
+import 'package:material_ui/material_ui.dart'
+    show ThemeData, ColorScheme, Theme;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
@@ -42,6 +43,16 @@ class FlutterSkin with WidgetsBindingObserver {
                 : null),
       ),
     );
+  }
+
+  static ColorScheme colorScheme(BuildContext context) {
+    final skin = remoteConfig.projectConfig?.skin;
+    final lightColors = skin?.colors ?? const ColorScheme.light();
+    final darkColors = skin?.darkTheme ?? const ColorScheme.dark();
+
+    return Theme.of(context).brightness == Brightness.dark
+        ? darkColors
+        : lightColors;
   }
 
   // Private constructor
