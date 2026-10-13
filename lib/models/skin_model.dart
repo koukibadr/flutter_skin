@@ -51,7 +51,7 @@ class SkinModel {
           ? fromSchemaString(tokens)?.colors
           : null,
       darkTheme: darkTheme is Map<String, dynamic>
-          ? fromSchemaString(darkTheme)?.colors
+          ? fromSchemaString(darkTheme, isDarkTheme: true)?.colors
           : null,
       fontFamily: map['font'] as String?,
       googleFont: map['googleFont'] as String?,
@@ -59,7 +59,10 @@ class SkinModel {
   }
 
   /// Parse SkinModel from schema string (JSON format)
-  static SkinModel? fromSchemaString(Map<String, dynamic> schemaString) {
+  static SkinModel? fromSchemaString(
+    Map<String, dynamic> schemaString, {
+    bool isDarkTheme = false,
+  }) {
     try {
       return SkinModel(
         id: '',
@@ -67,7 +70,10 @@ class SkinModel {
         isActive: false,
         version: 1,
         createdAt: DateTime.now(),
-        colors: colorSchemeFromJson(schemaString['colors']),
+        colors: colorSchemeFromJson(
+          schemaString['colors'],
+          isDarkTheme: isDarkTheme,
+        ),
       );
     } catch (e) {
       return null;

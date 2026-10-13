@@ -1,7 +1,10 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_skin/extensions/color_extensions.dart';
 
-ColorScheme colorSchemeFromJson(Map<String, dynamic> map) {
+ColorScheme colorSchemeFromJson(
+  Map<String, dynamic> map, {
+  bool isDarkTheme = false,
+}) {
   return ColorScheme(
     primary: (map['primary'] as String?)?.toHexColor() ?? Colors.blue,
     secondary: (map['secondary'] as String?)?.toHexColor() ?? Colors.green,
@@ -14,9 +17,7 @@ ColorScheme colorSchemeFromJson(Map<String, dynamic> map) {
     onSecondary: (map['onSecondary'] as String?)?.toHexColor() ?? Colors.white,
     onSurface: (map['onSurface'] as String?)?.toHexColor() ?? Colors.black,
     onError: (map['onError'] as String?)?.toHexColor() ?? Colors.white,
-    brightness: map['brightness'] == 'dark'
-        ? Brightness.dark
-        : Brightness.light,
+    brightness: isDarkTheme ? Brightness.dark : Brightness.light,
   );
 }
 
