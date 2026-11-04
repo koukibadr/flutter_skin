@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_skin/constants/fskin_constants.dart';
 import 'package:flutter_skin/models/project_config.dart';
 import 'package:flutter_skin/services/cache_service.dart';
@@ -17,6 +19,45 @@ class SkinService {
 
   factory SkinService() {
     return _instance;
+  }
+
+  Future<void> registerDevice() async {
+    _logger.logMessage('Registering device for the provided apiKey.');
+    var client = http.Client();
+    try {
+      final platform = kIsWeb
+          ? 'web'
+          : Platform
+                .operatingSystem; // You can replace this with actual platform detection logic if needed
+      final apiKey = await _cacheService.getApiKey();
+      var response = await client
+          .post(
+            Uri.https(FskinConstants.baseUrl, 'fskin/register'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'apiKey': apiKey,
+              "deviceId": platform,
+              "deviceOS": platform,
+            }),
+          )
+          .timeout(const Duration(seconds: 5));
+
+      _logger.logMessage(
+        'Received response with status code: ${response.statusCode}',
+      );
+
+      if (response.statusCode != 200) {
+        _logger.logError(
+          'Error while registering device: ${response.statusCode}',
+          errorObject: response,
+        );
+      }
+      _logger.logMessage('Device registered successfully.');
+    } catch (e) {
+      _logger.logError('Error registering device: $e', errorObject: e);
+    } finally {
+      client.close();
+    }
   }
 
   Future<ProjectConfig?> fetchData() async {

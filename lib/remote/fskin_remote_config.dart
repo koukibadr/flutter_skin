@@ -18,7 +18,7 @@ class FskinRemoteConfig {
   ProjectConfig? _cachedConfig;
 
   SkinService? skinService;
-  CacheService cacheService = CacheService();
+  CacheService? cacheService;
 
   Stream<ThemeData> get onSkinChanged => _skinController.stream;
 
@@ -47,6 +47,7 @@ class FskinRemoteConfig {
   static Future<FskinRemoteConfig> init({
     required String apiKey,
     @visibleForTesting SkinService? skinService,
+    @visibleForTesting CacheService? cacheService,
   }) async {
     _instance ??= FskinRemoteConfig._();
 
@@ -60,19 +61,31 @@ class FskinRemoteConfig {
     }
 
     _instance!.apiKey = apiKey;
-    _instance!.cacheService.saveApiKey(apiKey);
     if (skinService != null) {
       _instance!.skinService = skinService;
     } else {
       _instance!.skinService = SkinService();
     }
+
+    if (cacheService != null) {
+      _instance!.cacheService = cacheService;
+    } else {
+      _instance!.cacheService = CacheService();
+    }
+
+    await _instance!.cacheService!.saveApiKey(apiKey);
+    await _instance!.registerDevice();
     await _instance!.fetchConfig();
     return _instance!;
   }
 
   Future<void> clearCacheAndFetchConfig() async {
-    await cacheService.clearCache();
+    await cacheService?.clearCache();
     await fetchConfig();
+  }
+
+  Future<void> registerDevice() async {
+    await skinService?.registerDevice();
   }
 
   Future<void> fetchConfig() async {
